@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", serif;
+
+  --color-brand-black: var(--color-brand-black);
+  --color-brand-accent: var(--color-brand-accent);
+  --color-brand-secondary: var(--color-brand-secondary);
+  --color-brand-white: var(--color-brand-white);
+  --color-brand-gray: var(--color-brand-gray);
+  --color-brand-border: var(--color-brand-border);
+
+  /* Mapping primary/secondary for easier replacement */
+  --color-primary: var(--color-brand-accent);
+  --color-secondary: var(--color-brand-secondary);
+  --color-bg-neutral: var(--color-brand-gray);
+}
+
+@layer base {
+  :root {
+    --color-brand-black: #1a1a1a;
+    --color-brand-accent: #db2777; /* Rose/Pink accent */
+    --color-brand-secondary: #fdf2f8; /* Soft pink bg */
+    --color-brand-white: #ffffff;
+    --color-brand-gray: #f9fafb;
+    --color-brand-border: #f3f4f6;
+  }
+
+  .dark {
+    --color-brand-black: #f9fafb;
+    --color-brand-accent: #f472b6;
+    --color-brand-secondary: #1a1a1a;
+    --color-brand-white: #111827;
+    --color-brand-gray: #1f2937;
+    --color-brand-border: #374151;
+  }
+
+  body {
+    @apply bg-brand-white text-brand-black font-sans antialiased transition-colors duration-300;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+
+  /* Professional Button Styles */
+  .btn-primary {
+    @apply bg-brand-accent text-white px-8 py-4 rounded-2xl font-display font-black uppercase tracking-widest text-xs 
+           hover:bg-brand-accent/90 hover:shadow-xl hover:shadow-brand-accent/20 active:scale-[0.98] transition-all duration-300
+           disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-brand-black text-white dark:bg-white dark:text-brand-black px-8 py-4 rounded-2xl font-display font-black uppercase tracking-widest text-xs 
+           hover:bg-stone-800 dark:hover:bg-stone-200 active:scale-[0.98] transition-all duration-300
+           disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2;
+  }
+
+  .btn-outline {
+    @apply bg-transparent border-2 border-brand-black dark:border-white text-brand-black dark:text-white px-8 py-4 rounded-2xl font-display font-black uppercase tracking-widest text-xs 
+           hover:bg-brand-black hover:text-white dark:hover:bg-white dark:hover:text-brand-black active:scale-[0.98] transition-all duration-300
+           disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2;
+  }
+
+  .btn-ghost {
+    @apply bg-brand-gray dark:bg-stone-900 text-stone-600 dark:text-stone-300 px-6 py-3 rounded-xl font-bold uppercase tracking-wider text-[10px]
+           hover:bg-stone-200 dark:hover:bg-stone-800 transition-all duration-300 flex items-center justify-center gap-2;
+  }
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.neo-brutalism-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+}
+
+.subtle-grid {
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
+}
