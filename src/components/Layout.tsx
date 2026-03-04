@@ -65,7 +65,7 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
   useEffect(() => {
     document.title = storeName;
 
-    const faviconUrl = 'https://i.imgur.com/6NO1exF.png';
+    const faviconUrl = settings?.store_logo || 'https://i.imgur.com/6NO1exF.png';
     let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
     if (!link) {
       link = document.createElement('link');
@@ -73,7 +73,7 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
       document.getElementsByTagName('head')[0].appendChild(link);
     }
     link.href = faviconUrl;
-  }, [storeName]);
+  }, [storeName, settings?.store_logo]);
 
   const getModalContent = () => {
     if (modalType === 'delivery') {
@@ -202,12 +202,14 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
           <Link to="/" className="flex items-center gap-3 md:gap-4 group flex-shrink-0">
             <div className="relative">
               {(settings?.store_logo || isDarkMode) ? (
-                <img 
-                  src={settings?.store_logo || 'https://i.imgur.com/W0Q46wl.jpeg'} 
-                  alt={storeName} 
-                  className="h-12 md:h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
-                  referrerPolicy="no-referrer"
-                />
+                <div className="h-12 w-12 md:h-16 md:w-16 rounded-full overflow-hidden border-2 border-brand-accent/20 group-hover:border-brand-accent transition-colors duration-500 shadow-lg">
+                  <img 
+                    src={settings?.store_logo || 'https://i.imgur.com/W0Q46wl.jpeg'} 
+                    alt={storeName} 
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
               ) : (
                 <div className="w-12 h-12 md:h-16 md:w-16 bg-brand-accent rounded-full flex items-center justify-center text-white shadow-lg shadow-brand-accent/20 group-hover:rotate-6 transition-transform">
                   <ShoppingBag size={24} className="md:w-8 md:h-8" />
@@ -323,13 +325,13 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
             <div id="sobre" className="lg:col-span-4 space-y-8">
               <div className="flex items-center gap-5">
-                {settings?.store_logo ? (
-                  <img src={settings.store_logo} alt={storeName} className="h-14 md:h-16 w-auto object-contain" />
-                ) : (
-                  <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center overflow-hidden">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-white/10 shadow-2xl">
+                  {settings?.store_logo ? (
+                    <img src={settings.store_logo} alt={storeName} className="w-full h-full object-cover" />
+                  ) : (
                     <img src="https://i.imgur.com/W0Q46wl.jpeg" alt={storeName} className="w-full h-full object-cover" />
-                  </div>
-                )}
+                  )}
+                </div>
                 <div className="flex flex-col">
                   <span className="text-white font-display italic font-medium text-2xl md:text-3xl tracking-tight leading-none">
                     FERNANDA STORE
