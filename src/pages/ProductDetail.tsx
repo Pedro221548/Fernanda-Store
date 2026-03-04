@@ -178,7 +178,7 @@ export default function ProductDetail({ settings }: { settings?: any }) {
               </h1>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-4">
               {product.is_offer ? (
                 <div className="flex flex-col">
                   <span className="text-sm text-stone-400 line-through font-bold">
@@ -189,8 +189,23 @@ export default function ProductDetail({ settings }: { settings?: any }) {
                   </div>
                 </div>
               ) : (
-                <div className="text-3xl md:text-4xl lg:text-5xl font-medium font-display text-brand-black mb-6">
-                  {product.price ? `R$ ${product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Preço sob consulta'}
+                <div className="flex flex-col gap-4 mb-8">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-stone-400 uppercase tracking-[0.2em] mb-1">Preço à Vista</span>
+                    <div className="text-3xl md:text-4xl lg:text-5xl font-medium font-display text-brand-black">
+                      {product.price ? `R$ ${Number(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Preço sob consulta'}
+                    </div>
+                  </div>
+                  
+                  {product.price_card && (
+                    <div className="flex flex-col p-4 bg-brand-gray rounded-2xl border border-brand-black/5">
+                      <span className="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-1">No Cartão</span>
+                      <div className="text-xl md:text-2xl font-display font-bold text-stone-600">
+                        R$ {Number(product.price_card).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      </div>
+                      <span className="text-[10px] text-stone-400 mt-1 font-medium italic">Consulte condições de parcelamento</span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -284,7 +299,7 @@ export default function ProductDetail({ settings }: { settings?: any }) {
                 </Link>
                 <div className="p-4 md:p-6">
                   <h3 className="font-display font-medium text-sm md:text-lg mb-1 md:mb-2 group-hover:text-brand-accent dark:text-stone-100 transition-colors line-clamp-1">{related.name}</h3>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-0.5">
                     {related.is_offer ? (
                       <div className="flex flex-col">
                         <span className="text-[10px] md:text-xs text-stone-400 line-through font-bold">
@@ -295,9 +310,22 @@ export default function ProductDetail({ settings }: { settings?: any }) {
                         </span>
                       </div>
                     ) : (
-                      <span className="text-lg md:text-xl font-display font-black text-brand-black dark:text-white">
-                        {related.price ? `R$ ${related.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Sob consulta'}
-                      </span>
+                      <div className="flex flex-col">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">À vista</span>
+                          <span className="text-lg md:text-xl font-display font-black text-brand-black dark:text-white">
+                            {related.price ? `R$ ${Number(related.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Sob consulta'}
+                          </span>
+                        </div>
+                        {related.price_card && (
+                          <div className="flex items-baseline gap-1.5 -mt-1">
+                            <span className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">Cartão</span>
+                            <span className="text-sm md:text-base font-display font-bold text-stone-600 dark:text-stone-400">
+                              R$ {Number(related.price_card).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>

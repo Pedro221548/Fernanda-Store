@@ -325,7 +325,7 @@ export default function Home({
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-0.5">
                       {product.is_offer ? (
                         <div className="flex flex-col">
                           <span className="text-[10px] md:text-xs text-stone-400 line-through font-bold">
@@ -336,9 +336,22 @@ export default function Home({
                           </span>
                         </div>
                       ) : (
-                        <span className="text-lg md:text-xl font-display font-black text-brand-black dark:text-white">
-                          {product.price ? `R$ ${product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Sob consulta'}
-                        </span>
+                        <div className="flex flex-col">
+                          <div className="flex items-baseline gap-1.5">
+                            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">À vista</span>
+                            <span className="text-lg md:text-xl font-display font-black text-brand-black dark:text-white">
+                              {product.price ? `R$ ${Number(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Sob consulta'}
+                            </span>
+                          </div>
+                          {product.price_card && (
+                            <div className="flex items-baseline gap-1.5 -mt-1">
+                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Cartão</span>
+                              <span className="text-sm md:text-base font-display font-bold text-stone-600 dark:text-stone-400">
+                                R$ {Number(product.price_card).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       )}
                     </div>
                     <a

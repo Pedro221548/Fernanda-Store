@@ -516,6 +516,7 @@ export default function AdminDashboard({ token }: { token: string }) {
                         name: '', 
                         description: '', 
                         price: '', 
+                        price_card: '',
                         category: '', 
                         active: 1, 
                         status: 'disponivel',
@@ -1173,7 +1174,7 @@ export default function AdminDashboard({ token }: { token: string }) {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1 uppercase tracking-wide">Preço (R$)</label>
+                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1 uppercase tracking-wide">Preço à Vista (R$)</label>
                       <input
                         type="text"
                         className="w-full px-3 py-1.5 bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue/50 text-sm dark:text-white"
@@ -1182,6 +1183,21 @@ export default function AdminDashboard({ token }: { token: string }) {
                           const val = e.target.value.replace(',', '.');
                           if (!isNaN(Number(val)) || val === '' || val === '.') {
                             setEditingItem({...editingItem, price: val});
+                          }
+                        }}
+                        placeholder="0,00"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1 uppercase tracking-wide">Preço no Cartão (R$)</label>
+                      <input
+                        type="text"
+                        className="w-full px-3 py-1.5 bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue/50 text-sm dark:text-white"
+                        value={editingItem.price_card ? String(editingItem.price_card).replace('.', ',') : ''}
+                        onChange={e => {
+                          const val = e.target.value.replace(',', '.');
+                          if (!isNaN(Number(val)) || val === '' || val === '.') {
+                            setEditingItem({...editingItem, price_card: val});
                           }
                         }}
                         placeholder="0,00"
