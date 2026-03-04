@@ -403,10 +403,19 @@ export default function Home({
                 <span className="text-stone-400 text-sm">• Baseado em avaliações reais</span>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-sm text-stone-500 bg-brand-gray dark:bg-stone-900 px-4 py-3 rounded-xl border border-brand-border dark:border-stone-800">
-              <MapPin size={18} className="text-brand-blue" />
-              <span className="font-medium dark:text-stone-400">R. São Pedro - São Francisco, Serra - ES, 29175-227</span>
-            </div>
+            <a 
+              href={settings?.store_location ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.store_location)}` : "#"}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 text-sm text-stone-500 bg-brand-gray dark:bg-stone-900 px-4 py-3 rounded-xl border border-brand-border dark:border-stone-800 hover:border-brand-blue transition-colors group"
+            >
+              <MapPin size={18} className="text-brand-blue group-hover:scale-110 transition-transform" />
+              <span className="font-medium dark:text-stone-400 truncate max-w-[200px] sm:max-w-xs">
+                {settings?.store_location && !settings.store_location.startsWith('http') 
+                  ? settings.store_location 
+                  : 'Ver localização no mapa'}
+              </span>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

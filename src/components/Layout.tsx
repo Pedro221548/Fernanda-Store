@@ -432,7 +432,7 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
                 </a>
                 
                 <a 
-                  href="#" 
+                  href={settings?.store_location ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.store_location)}` : "#"} 
                   target="_blank" 
                   rel="noreferrer"
                   className="w-full flex items-center gap-3 md:gap-4 bg-white/5 hover:bg-brand-accent/10 border border-white/10 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl transition-all group"
