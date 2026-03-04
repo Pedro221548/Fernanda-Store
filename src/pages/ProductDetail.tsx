@@ -85,11 +85,11 @@ export default function ProductDetail({ settings }: { settings?: any }) {
         Voltar para Coleções
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-20">
         {/* Product Images Gallery */}
         <div className="space-y-4">
           {/* Mobile Header: Name and Category above images */}
-          <div className="md:hidden mb-2">
+          <div className="md:hidden mb-4">
             <div className="flex flex-wrap items-center gap-2 mb-3">
               {product.category && (
                 <span className="inline-block bg-brand-accent/10 text-brand-accent text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
@@ -107,7 +107,7 @@ export default function ProductDetail({ settings }: { settings?: any }) {
                 </span>
               )}
             </div>
-            <h1 className="text-2xl font-black text-brand-black leading-tight mb-2">
+            <h1 className="text-2xl sm:text-3xl font-black text-brand-black leading-tight">
               {product.name}
             </h1>
           </div>
@@ -115,7 +115,7 @@ export default function ProductDetail({ settings }: { settings?: any }) {
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-brand-white border border-brand-black/5 shadow-sm flex items-center justify-center"
+            className="relative aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden bg-brand-white border border-brand-black/5 shadow-sm flex items-center justify-center"
           >
             <img 
               src={images[selectedImage].image_data} 
@@ -126,12 +126,12 @@ export default function ProductDetail({ settings }: { settings?: any }) {
           </motion.div>
           
           {images.length > 1 && (
-            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+            <div className="flex gap-2 md:gap-4 overflow-x-auto pb-2 scrollbar-hide">
               {images.map((img: any, idx: number) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
-                  className={`relative flex-shrink-0 w-20 h-24 rounded-xl overflow-hidden border-2 transition-all bg-brand-white flex items-center justify-center ${
+                  className={`relative flex-shrink-0 w-16 h-20 md:w-20 md:h-24 rounded-lg md:rounded-xl overflow-hidden border-2 transition-all bg-brand-white flex items-center justify-center ${
                     selectedImage === idx ? 'border-brand-accent' : 'border-transparent opacity-60 hover:opacity-100'
                   }`}
                 >
@@ -180,18 +180,18 @@ export default function ProductDetail({ settings }: { settings?: any }) {
 
             <div className="flex flex-col gap-4">
               {product.is_offer ? (
-                <div className="flex flex-col">
-                  <span className="text-sm text-stone-400 line-through font-bold">
+                <div className="flex flex-col mb-4 md:mb-6">
+                  <span className="text-xs md:text-sm text-stone-400 line-through font-bold">
                     R$ {product.price?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </span>
-                  <div className="text-3xl md:text-4xl lg:text-5xl font-medium font-display text-brand-accent mb-6">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-medium font-display text-brand-accent">
                     R$ {Number(product.offer_price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col gap-4 mb-8">
+                <div className="flex flex-col gap-4 mb-6 md:mb-8">
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold text-stone-400 uppercase tracking-[0.2em] mb-1">Preço à Vista</span>
+                    <span className="text-[10px] md:text-xs font-bold text-stone-400 uppercase tracking-[0.2em] mb-1">Preço à Vista</span>
                     <div className="text-3xl md:text-4xl lg:text-5xl font-medium font-display text-brand-black">
                       {product.price ? `R$ ${Number(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Preço sob consulta'}
                     </div>
@@ -203,20 +203,20 @@ export default function ProductDetail({ settings }: { settings?: any }) {
                       <div className="text-xl md:text-2xl font-display font-bold text-stone-600">
                         R$ {Number(product.price_card).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </div>
-                      <span className="text-[10px] text-stone-400 mt-1 font-medium italic">Consulte condições de parcelamento</span>
+                      <span className="text-[9px] md:text-[10px] text-stone-400 mt-1 font-medium italic">Consulte condições de parcelamento</span>
                     </div>
                   )}
                 </div>
               )}
             </div>
-            <div className="prose prose-stone max-w-none text-stone-600 leading-relaxed">
+            <div className="prose prose-stone max-w-none text-stone-600 leading-relaxed text-sm md:text-base">
               <p className="whitespace-pre-wrap">{product.description}</p>
             </div>
           </div>
 
-          <div className="mt-auto space-y-4">
+          <div className="mt-8 md:mt-auto space-y-3 md:space-y-4">
             {product.status === 'vendido' ? (
-              <div className="w-full bg-stone-100 dark:bg-stone-900 text-stone-400 dark:text-stone-600 py-4 rounded-2xl font-black text-lg text-center cursor-not-allowed border border-stone-200 dark:border-stone-800">
+              <div className="w-full bg-stone-100 dark:bg-stone-900 text-stone-400 dark:text-stone-600 py-4 rounded-2xl font-black text-base md:text-lg text-center cursor-not-allowed border border-stone-200 dark:border-stone-800">
                 Produto Indisponível (Vendido)
               </div>
             ) : (
@@ -225,18 +225,18 @@ export default function ProductDetail({ settings }: { settings?: any }) {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => trackContact('whatsapp', product)}
-                className="btn-primary w-full !text-lg !py-5 shadow-2xl shadow-brand-accent/30"
+                className="btn-primary w-full !text-base md:!text-lg !py-4 md:!py-5 shadow-2xl shadow-brand-accent/30"
               >
-                <MessageCircle size={24} />
+                <MessageCircle size={20} className="md:w-6 md:h-6" />
                 Falar com Consultora
               </a>
             )}
             
             <button 
               onClick={handleShare}
-              className="btn-ghost w-full !py-4 !text-sm"
+              className="btn-ghost w-full !py-3 md:!py-4 !text-xs md:!text-sm"
             >
-              <Share2 size={20} />
+              <Share2 size={18} className="md:w-5 md:h-5" />
               Compartilhar Produto
             </button>
           </div>
@@ -265,14 +265,14 @@ export default function ProductDetail({ settings }: { settings?: any }) {
           <h2 className="text-2xl md:text-3xl font-display font-black text-brand-black dark:text-white uppercase tracking-tight mb-8">
             Produtos Relacionados
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
             {relatedProducts.map((related: any, idx: number) => (
               <motion.div
                 key={related.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="group bg-white dark:bg-black rounded-3xl overflow-hidden border border-brand-border dark:border-white/10 hover:border-brand-yellow dark:hover:border-brand-yellow transition-all hover:shadow-2xl hover:shadow-brand-black/5 dark:shadow-none"
+                className="group bg-white dark:bg-black rounded-2xl md:rounded-3xl overflow-hidden border border-brand-border dark:border-white/10 hover:border-brand-yellow dark:hover:border-brand-yellow transition-all hover:shadow-2xl hover:shadow-brand-black/5 dark:shadow-none"
               >
                 <Link to={`/produto/${related.id}`} onClick={() => window.scrollTo(0, 0)}>
                   <div className="aspect-[3/4] overflow-hidden relative bg-white dark:bg-black">
@@ -285,42 +285,42 @@ export default function ProductDetail({ settings }: { settings?: any }) {
                       />
                     </div>
                     {related.is_offer && (
-                      <div className="absolute top-4 right-4 bg-brand-accent text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-lg z-20 flex items-center gap-1">
-                        <ShoppingBag size={12} />
+                      <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-brand-accent text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest px-2 py-1 md:px-3 md:py-1.5 rounded-md md:rounded-lg shadow-lg z-20 flex items-center gap-1">
+                        <ShoppingBag size={10} className="md:w-3 md:h-3" />
                         Sale
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-brand-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-6">
-                      <span className="w-full bg-white text-brand-black py-3 rounded-xl font-display font-black uppercase tracking-tight text-[10px] text-center transform translate-y-4 group-hover:translate-y-0 transition-transform shadow-lg">
+                    <div className="absolute inset-0 bg-brand-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 md:p-6">
+                      <span className="w-full bg-white text-brand-black py-2 md:py-3 rounded-lg md:rounded-xl font-display font-black uppercase tracking-tight text-[9px] md:text-xs text-center transform translate-y-4 group-hover:translate-y-0 transition-transform shadow-lg">
                         Ver Detalhes
                       </span>
                     </div>
                   </div>
                 </Link>
-                <div className="p-4 md:p-6">
-                  <h3 className="font-display font-medium text-sm md:text-lg mb-1 md:mb-2 group-hover:text-brand-accent dark:text-stone-100 transition-colors line-clamp-1">{related.name}</h3>
+                <div className="p-3 md:p-6">
+                  <h3 className="font-display font-medium text-xs md:text-lg mb-1 md:mb-2 group-hover:text-brand-accent dark:text-stone-100 transition-colors line-clamp-1">{related.name}</h3>
                   <div className="flex flex-col gap-0.5">
                     {related.is_offer ? (
                       <div className="flex flex-col">
-                        <span className="text-[10px] md:text-xs text-stone-400 line-through font-bold">
+                        <span className="text-[8px] md:text-xs text-stone-400 line-through font-bold">
                           R$ {related.price?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
-                        <span className="text-lg md:text-xl font-display font-black text-brand-accent">
+                        <span className="text-base md:text-xl font-display font-black text-brand-accent">
                           R$ {Number(related.offer_price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
                     ) : (
                       <div className="flex flex-col">
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">À vista</span>
-                          <span className="text-lg md:text-xl font-display font-black text-brand-black dark:text-white">
+                          <span className="text-[8px] md:text-[9px] font-bold text-stone-400 uppercase tracking-wider">À vista</span>
+                          <span className="text-base md:text-xl font-display font-black text-brand-black dark:text-white">
                             {related.price ? `R$ ${Number(related.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Sob consulta'}
                           </span>
                         </div>
                         {related.price_card && (
                           <div className="flex items-baseline gap-1.5 -mt-1">
-                            <span className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">Cartão</span>
-                            <span className="text-sm md:text-base font-display font-bold text-stone-600 dark:text-stone-400">
+                            <span className="text-[8px] md:text-[9px] font-bold text-stone-400 uppercase tracking-wider">Cartão</span>
+                            <span className="text-xs md:text-base font-display font-bold text-stone-600 dark:text-stone-400">
                               R$ {Number(related.price_card).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                             </span>
                           </div>

@@ -105,31 +105,31 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-brand-white rounded-3xl shadow-2xl max-h-[85vh] flex flex-col"
+              className="relative w-full max-w-lg bg-brand-white rounded-3xl shadow-2xl max-h-[90vh] flex flex-col"
             >
-              <div className="p-6 md:p-8 overflow-y-auto">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-brand-accent/10 text-brand-accent rounded-2xl flex items-center justify-center flex-shrink-0">
-                      {modalType === 'delivery' ? <Truck size={24} /> : modalType === 'payment' ? <CreditCard size={24} /> : <ShoppingBag size={24} />}
+              <div className="p-5 sm:p-8 overflow-y-auto">
+                <div className="flex items-center justify-between mb-5 sm:mb-6">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-accent/10 text-brand-accent rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                      {modalType === 'delivery' ? <Truck size={20} className="sm:w-6 sm:h-6" /> : modalType === 'payment' ? <CreditCard size={20} className="sm:w-6 sm:h-6" /> : <ShoppingBag size={20} className="sm:w-6 sm:h-6" />}
                     </div>
-                    <h3 className="text-xl font-display font-medium uppercase tracking-tight italic">
+                    <h3 className="text-lg sm:text-xl font-display font-medium uppercase tracking-tight italic">
                       {modalType === 'delivery' ? 'Formas de Entrega' : modalType === 'payment' ? 'Formas de Pagamento' : 'Sobre Nós'}
                     </h3>
                   </div>
                   <button 
                     onClick={() => setModalType(null)}
-                    className="w-10 h-10 bg-brand-gray hover:bg-stone-200 rounded-full flex items-center justify-center text-stone-500 transition-colors flex-shrink-0"
+                    className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-gray hover:bg-stone-200 rounded-full flex items-center justify-center text-stone-500 transition-colors flex-shrink-0"
                   >
-                    <X size={20} />
+                    <X size={18} />
                   </button>
                 </div>
-                <div className="text-stone-600 leading-relaxed whitespace-pre-wrap font-medium text-sm md:text-base">
+                <div className="text-stone-600 leading-relaxed whitespace-pre-wrap font-medium text-xs sm:text-base">
                   {getModalContent()}
                 </div>
                 <button 
                   onClick={() => setModalType(null)}
-                  className="w-full mt-8 btn-secondary"
+                  className="w-full mt-6 sm:mt-8 btn-secondary !py-3 sm:!py-4"
                 >
                   Entendi
                 </button>
@@ -197,12 +197,12 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
 
       {/* Main Header */}
       <header className="sticky top-0 z-50 bg-brand-white/90 backdrop-blur-md border-b border-brand-border transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 md:h-24 flex items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-24 flex items-center justify-between gap-4 md:gap-8">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 md:gap-4 group flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2 md:gap-4 group flex-shrink-0">
             <div className="relative">
               {(settings?.store_logo || isDarkMode) ? (
-                <div className="h-12 w-12 md:h-16 md:w-16 rounded-full overflow-hidden border-2 border-brand-accent/20 group-hover:border-brand-accent transition-colors duration-500 shadow-lg">
+                <div className="h-10 w-10 md:h-16 md:w-16 rounded-full overflow-hidden border-2 border-brand-accent/20 group-hover:border-brand-accent transition-colors duration-500 shadow-lg">
                   <img 
                     src={settings?.store_logo || 'https://i.imgur.com/W0Q46wl.jpeg'} 
                     alt={storeName} 
@@ -211,16 +211,16 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
                   />
                 </div>
               ) : (
-                <div className="w-12 h-12 md:h-16 md:w-16 bg-brand-accent rounded-full flex items-center justify-center text-white shadow-lg shadow-brand-accent/20 group-hover:rotate-6 transition-transform">
-                  <ShoppingBag size={24} className="md:w-8 md:h-8" />
+                <div className="w-10 h-10 md:h-16 md:w-16 bg-brand-accent rounded-full flex items-center justify-center text-white shadow-lg shadow-brand-accent/20 group-hover:rotate-6 transition-transform">
+                  <ShoppingBag size={20} className="md:w-8 md:h-8" />
                 </div>
               )}
             </div>
             <div className="flex flex-col">
-              <span className="font-display italic font-medium text-xl md:text-3xl tracking-tight text-brand-black dark:text-white leading-none">
+              <span className="font-display italic font-medium text-lg md:text-3xl tracking-tight text-brand-black dark:text-white leading-none">
                 FERNANDA STORE
               </span>
-              <span className="text-[9px] md:text-[11px] font-sans font-bold text-stone-400 dark:text-stone-500 tracking-[0.3em] uppercase mt-1">
+              <span className="text-[8px] md:text-[11px] font-sans font-bold text-stone-400 dark:text-stone-500 tracking-[0.2em] md:tracking-[0.3em] uppercase mt-0.5 md:mt-1">
                 MODA FEMININA
               </span>
             </div>
@@ -286,13 +286,13 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
               exit={{ height: 0, opacity: 0 }}
               className="md:hidden overflow-hidden border-t border-brand-border bg-brand-white"
             >
-              <div className="px-4 py-4">
+              <div className="px-4 py-3">
                 <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" size={18} />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" size={16} />
                   <input 
                     type="text" 
                     placeholder="O que você está procurando?" 
-                    className="w-full bg-brand-gray border border-transparent focus:border-brand-black/10 focus:bg-white px-12 py-3.5 rounded-2xl outline-none transition-all font-medium text-sm"
+                    className="w-full bg-brand-gray border border-transparent focus:border-brand-accent/20 focus:bg-white px-10 py-3 rounded-xl outline-none transition-all font-medium text-sm"
                     value={searchTerm}
                     onChange={(e) => onSearchChange?.(e.target.value)}
                     onBlur={() => trackSearch(searchTerm || '')}
@@ -320,12 +320,12 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
       </main>
 
       {/* Footer */}
-      <footer id="contato" className="bg-[#050505] text-stone-400 py-16 md:py-28 mt-12 md:mt-24 border-t border-white/5">
+      <footer id="contato" className="bg-[#050505] text-stone-400 py-12 md:py-28 mt-8 md:mt-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
-            <div id="sobre" className="lg:col-span-4 space-y-8">
-              <div className="flex items-center gap-5">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-white/10 shadow-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+            <div id="sobre" className="lg:col-span-4 space-y-6 md:space-y-8">
+              <div className="flex items-center gap-4 md:gap-5">
+                <div className="w-14 h-14 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-white/10 shadow-2xl">
                   {settings?.store_logo ? (
                     <img src={settings.store_logo} alt={storeName} className="w-full h-full object-cover" />
                   ) : (
@@ -333,32 +333,32 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-white font-display italic font-medium text-2xl md:text-3xl tracking-tight leading-none">
+                  <span className="text-white font-display italic font-medium text-xl md:text-3xl tracking-tight leading-none">
                     FERNANDA STORE
                   </span>
-                  <span className="text-[10px] md:text-[11px] font-sans font-bold text-brand-accent tracking-[0.4em] uppercase mt-2">
+                  <span className="text-[9px] md:text-[11px] font-sans font-bold text-brand-accent tracking-[0.3em] md:tracking-[0.4em] uppercase mt-1.5 md:mt-2">
                     MODA FEMININA
                   </span>
                 </div>
               </div>
               
-              <p className="text-sm md:text-base leading-relaxed font-medium opacity-60 max-w-sm">
+              <p className="text-xs md:text-base leading-relaxed font-medium opacity-60 max-w-sm">
                 Sua boutique de moda feminina em Serra/ES. Elegância, estilo e sofisticação em cada peça, pensada para a mulher contemporânea.
               </p>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2 md:gap-3">
                 <button 
                   onClick={() => setModalType('delivery')}
-                  className="btn-ghost !bg-white/5 !border !border-white/10 !text-white hover:!bg-brand-accent hover:!text-white hover:!border-brand-accent !px-5 !py-3 !rounded-xl"
+                  className="btn-ghost !bg-white/5 !border !border-white/10 !text-white hover:!bg-brand-accent hover:!text-white hover:!border-brand-accent !px-4 md:!px-5 !py-2.5 md:!py-3 !rounded-xl !text-[9px] md:!text-[10px]"
                 >
-                  <Truck size={16} />
+                  <Truck size={14} className="md:w-4 md:h-4" />
                   Entrega
                 </button>
                 <button 
                   onClick={() => setModalType('payment')}
-                  className="btn-ghost !bg-white/5 !border !border-white/10 !text-white hover:!bg-brand-accent hover:!text-white hover:!border-brand-accent !px-5 !py-3 !rounded-xl"
+                  className="btn-ghost !bg-white/5 !border !border-white/10 !text-white hover:!bg-brand-accent hover:!text-white hover:!border-brand-accent !px-4 md:!px-5 !py-2.5 md:!py-3 !rounded-xl !text-[9px] md:!text-[10px]"
                 >
-                  <CreditCard size={16} />
+                  <CreditCard size={14} className="md:w-4 md:h-4" />
                   Pagamento
                 </button>
               </div>
@@ -366,8 +366,8 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
 
             {/* Links Section */}
             <div className="lg:col-span-2">
-              <h4 className="text-white font-display font-bold uppercase tracking-[0.2em] text-[11px] mb-8 opacity-40">Informações</h4>
-              <nav className="flex flex-col gap-5 text-sm font-medium">
+              <h4 className="text-white font-display font-bold uppercase tracking-[0.2em] text-[10px] md:text-[11px] mb-6 md:mb-8 opacity-40">Informações</h4>
+              <nav className="flex flex-col gap-4 md:gap-5 text-xs md:text-sm font-medium">
                 <button onClick={() => setModalType('about')} className="text-left hover:text-brand-accent transition-colors">Sobre nós</button>
                 <button onClick={() => setModalType('payment')} className="text-left hover:text-brand-accent transition-colors">Pagamento</button>
                 <button onClick={() => setModalType('delivery')} className="text-left hover:text-brand-accent transition-colors">Entrega</button>
@@ -377,34 +377,34 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
 
             {/* Social Section */}
             <div className="lg:col-span-3">
-              <h4 className="text-white font-display font-bold uppercase tracking-[0.2em] text-[11px] mb-8 opacity-40">Redes Sociais</h4>
-              <nav className="flex flex-col gap-5 text-sm font-medium">
+              <h4 className="text-white font-display font-bold uppercase tracking-[0.2em] text-[10px] md:text-[11px] mb-6 md:mb-8 opacity-40">Redes Sociais</h4>
+              <nav className="flex flex-col gap-4 md:gap-5 text-xs md:text-sm font-medium">
                 {settings?.social_instagram ? (
                   <a href={settings.social_instagram.startsWith('http') ? settings.social_instagram : `https://instagram.com/${settings.social_instagram}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-brand-accent transition-colors group">
-                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
-                      <Instagram size={18} />
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
+                      <Instagram size={16} className="md:w-[18px] md:h-[18px]" />
                     </div>
                     <span>Instagram</span>
                   </a>
                 ) : (
                   <a href="https://instagram.com" target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-brand-accent transition-colors group opacity-40">
-                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
-                      <Instagram size={18} />
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-white/5 flex items-center justify-center">
+                      <Instagram size={16} className="md:w-[18px] md:h-[18px]" />
                     </div>
                     <span className="italic">Instagram (em breve)</span>
                   </a>
                 )}
                 {settings?.social_facebook ? (
                   <a href={settings.social_facebook.startsWith('http') ? settings.social_facebook : `https://facebook.com/${settings.social_facebook}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-brand-accent transition-colors group">
-                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
-                      <Facebook size={18} />
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
+                      <Facebook size={16} className="md:w-[18px] md:h-[18px]" />
                     </div>
                     <span>Facebook</span>
                   </a>
                 ) : (
                   <a href="https://facebook.com" target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-brand-accent transition-colors group opacity-40">
-                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
-                      <Facebook size={18} />
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-white/5 flex items-center justify-center">
+                      <Facebook size={16} className="md:w-[18px] md:h-[18px]" />
                     </div>
                     <span className="italic">Facebook (em breve)</span>
                   </a>
@@ -414,20 +414,20 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
 
             {/* Contact Section */}
             <div className="lg:col-span-3">
-              <h4 className="text-white font-display font-bold uppercase tracking-[0.2em] text-[11px] mb-8 opacity-40">Atendimento</h4>
-              <div className="flex flex-col gap-4">
+              <h4 className="text-white font-display font-bold uppercase tracking-[0.2em] text-[10px] md:text-[11px] mb-6 md:mb-8 opacity-40">Atendimento</h4>
+              <div className="flex flex-col gap-3 md:gap-4">
                 <a 
                   href="https://wa.me/5527998200474" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="w-full flex items-center gap-4 bg-white/5 hover:bg-emerald-500/10 border border-white/10 px-6 py-4 rounded-2xl transition-all group"
+                  className="w-full flex items-center gap-3 md:gap-4 bg-white/5 hover:bg-emerald-500/10 border border-white/10 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl transition-all group"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
-                    <MessageCircle size={22} />
+                  <div className="w-9 h-9 md:w-11 md:h-11 rounded-lg md:rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                    <MessageCircle size={18} className="md:w-[22px] md:h-[22px]" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-30 text-white mb-0.5">WhatsApp</span>
-                    <span className="text-white font-bold text-sm tracking-tight">27 99820-0474</span>
+                    <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest opacity-30 text-white mb-0.5">WhatsApp</span>
+                    <span className="text-white font-bold text-xs md:text-sm tracking-tight">27 99820-0474</span>
                   </div>
                 </a>
                 
@@ -435,14 +435,14 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
                   href="#" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="w-full flex items-center gap-4 bg-white/5 hover:bg-brand-accent/10 border border-white/10 px-6 py-4 rounded-2xl transition-all group"
+                  className="w-full flex items-center gap-3 md:gap-4 bg-white/5 hover:bg-brand-accent/10 border border-white/10 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl transition-all group"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-brand-accent/20 text-brand-accent flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
-                    <MapPin size={22} />
+                  <div className="w-9 h-9 md:w-11 md:h-11 rounded-lg md:rounded-xl bg-brand-accent/20 text-brand-accent flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                    <MapPin size={18} className="md:w-[22px] md:h-[22px]" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-30 text-white mb-0.5">Localização</span>
-                    <span className="text-white font-bold text-xs tracking-tight">{storeName}</span>
+                    <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest opacity-30 text-white mb-0.5">Localização</span>
+                    <span className="text-white font-bold text-[10px] md:text-xs tracking-tight">{storeName}</span>
                   </div>
                 </a>
               </div>
@@ -450,9 +450,9 @@ export default function Layout({ children, settings, isAuthenticated, onLogout, 
           </div>
 
           {/* Bottom Bar */}
-          <div className="mt-20 md:mt-32 pt-10 border-t border-white/5 flex flex-col xl:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-[0.2em] opacity-30">
-            <p className="whitespace-nowrap">© {new Date().getFullYear()} {storeName}. Todos os direitos reservados.</p>
-            <p className="normal-case tracking-normal opacity-80 text-[10px] max-w-2xl text-center xl:text-right leading-relaxed">
+          <div className="mt-16 md:mt-32 pt-8 md:pt-10 border-t border-white/5 flex flex-col xl:flex-row justify-between items-center gap-6 md:gap-8 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.2em] opacity-30">
+            <p className="whitespace-nowrap text-center">© {new Date().getFullYear()} {storeName}. Todos os direitos reservados.</p>
+            <p className="normal-case tracking-normal opacity-80 text-[8px] md:text-[10px] max-w-2xl text-center xl:text-right leading-relaxed">
               Privacidade Garantida: Tratamos seus dados com total segurança e transparência, seguindo a Lei Geral de Proteção de Dados (LGPD).
             </p>
           </div>

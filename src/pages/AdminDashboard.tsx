@@ -141,6 +141,67 @@ export default function AdminDashboard({ token }: { token: string }) {
     fetchData();
   }, [token]);
 
+  const handleSellOneUnit = async (product: any) => {
+    const currentStock = parseInt(String(product.stock_quantity || '1'), 10);
+    
+    if (currentStock < 1) {
+      alert('Produto sem estoque disponível.');
+      return;
+    }
+
+    if (!confirm(`Confirmar venda de 1 unidade de "${product.name}"?`)) return;
+
+    try {
+      if (currentStock > 1) {
+        // Case: Multiple items. Create sold copy and decrement stock.
+        const soldCopy = {
+          ...product,
+          id: null,
+          status: 'vendido',
+          stock_quantity: '1',
+          status_updated_at: new Date().toISOString(),
+          images: product.images?.map((img: any) => ({ image_data: img.image_data }))
+        };
+        
+        const sanitizedSoldCopy = Object.fromEntries(
+          Object.entries(soldCopy).filter(([_, v]) => v !== undefined)
+        );
+        
+        await api.saveProduct(token, sanitizedSoldCopy);
+
+        const updatedProduct = {
+          ...product,
+          stock_quantity: (currentStock - 1).toString()
+        };
+        
+        const sanitizedUpdatedProduct = Object.fromEntries(
+          Object.entries(updatedProduct).filter(([_, v]) => v !== undefined)
+        );
+        
+        await api.saveProduct(token, sanitizedUpdatedProduct);
+      } else {
+        // Case: Single item. Mark as sold.
+        const updatedProduct = {
+          ...product,
+          status: 'vendido',
+          stock_quantity: '0',
+          status_updated_at: new Date().toISOString()
+        };
+        
+        const sanitizedUpdatedProduct = Object.fromEntries(
+          Object.entries(updatedProduct).filter(([_, v]) => v !== undefined)
+        );
+        
+        await api.saveProduct(token, sanitizedUpdatedProduct);
+      }
+      
+      fetchData();
+    } catch (error) {
+      console.error("Error selling unit:", error);
+      alert("Erro ao processar venda.");
+    }
+  };
+
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -432,83 +493,83 @@ export default function AdminDashboard({ token }: { token: string }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row gap-10">
         {/* Sidebar Tabs */}
-        <aside className="w-full md:w-72 space-y-2">
+        <aside className="w-full md:w-72 flex md:flex-col gap-2 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
           <button
             onClick={() => setActiveTab('products')}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all border-b-4 active:translate-y-1 active:border-b-0 ${
+            className={`flex-shrink-0 md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-display font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all border-b-2 md:border-b-4 active:translate-y-1 active:border-b-0 ${
               activeTab === 'products' 
                 ? 'bg-brand-yellow text-brand-black border-brand-yellow/60 shadow-lg shadow-brand-yellow/20' 
                 : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300'
             }`}
           >
-            <div className={`p-2 rounded-xl ${activeTab === 'products' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
-              <Package size={18} />
+            <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl ${activeTab === 'products' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
+              <Package size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
             Gestão de Produtos
           </button>
           <button
             onClick={() => setActiveTab('banners')}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all border-b-4 active:translate-y-1 active:border-b-0 ${
+            className={`flex-shrink-0 md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-display font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all border-b-2 md:border-b-4 active:translate-y-1 active:border-b-0 ${
               activeTab === 'banners' 
                 ? 'bg-brand-yellow text-brand-black border-brand-yellow/60 shadow-lg shadow-brand-yellow/20' 
                 : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300'
             }`}
           >
-            <div className={`p-2 rounded-xl ${activeTab === 'banners' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
-              <LayoutIcon size={18} />
+            <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl ${activeTab === 'banners' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
+              <LayoutIcon size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
             Banners & Destaques
           </button>
           <button
             onClick={() => navigate('/admin-estrategia')}
-            className="w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all border-b-4 border-stone-200 bg-white text-stone-500 hover:bg-stone-50 hover:border-stone-300 active:translate-y-1 active:border-b-0"
+            className="flex-shrink-0 md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-display font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all border-b-2 md:border-b-4 border-stone-200 bg-white text-stone-500 hover:bg-stone-50 hover:border-stone-300 active:translate-y-1 active:border-b-0"
           >
-            <div className="p-2 rounded-xl bg-stone-100">
-              <BarChart3 size={18} />
+            <div className="p-1.5 md:p-2 rounded-lg md:rounded-xl bg-stone-100">
+              <BarChart3 size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
-            Estratégia de Negócio
+            Estratégia
           </button>
           <button
             onClick={() => setActiveTab('settings')}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all border-b-4 active:translate-y-1 active:border-b-0 ${
+            className={`flex-shrink-0 md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-display font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all border-b-2 md:border-b-4 active:translate-y-1 active:border-b-0 ${
               activeTab === 'settings' 
                 ? 'bg-brand-yellow text-brand-black border-brand-yellow/60 shadow-lg shadow-brand-yellow/20' 
                 : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300'
             }`}
           >
-            <div className={`p-2 rounded-xl ${activeTab === 'settings' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
-              <SettingsIcon size={18} />
+            <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl ${activeTab === 'settings' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
+              <SettingsIcon size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
-            Configurações Gerais
+            Configurações
           </button>
           <button
             onClick={() => setActiveTab('reports')}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all border-b-4 active:translate-y-1 active:border-b-0 ${
+            className={`flex-shrink-0 md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-display font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all border-b-2 md:border-b-4 active:translate-y-1 active:border-b-0 ${
               activeTab === 'reports' 
                 ? 'bg-brand-yellow text-brand-black border-brand-yellow/60 shadow-lg shadow-brand-yellow/20' 
                 : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300'
             }`}
           >
-            <div className={`p-2 rounded-xl ${activeTab === 'reports' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
-              <BarChart3 size={18} />
+            <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl ${activeTab === 'reports' ? 'bg-brand-black/10' : 'bg-stone-100'}`}>
+              <BarChart3 size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
-            Relatórios de Vendas
+            Relatórios
           </button>
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 bg-brand-white rounded-3xl shadow-sm border border-brand-black/5 p-8">
+        <main className="flex-1 bg-brand-white rounded-2xl md:rounded-3xl shadow-sm border border-brand-black/5 p-4 md:p-8">
           {activeTab === 'products' && (
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <h2 className="text-2xl font-black text-brand-black uppercase tracking-tight">Gerenciar Produtos</h2>
-                  <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                  <h2 className="text-xl md:text-2xl font-black text-brand-black uppercase tracking-tight">Gerenciar Produtos</h2>
+                  <div className="flex flex-col sm:flex-row items-center gap-2 md:gap-3 w-full md:w-auto">
                     <button
                       onClick={handleExportExcel}
-                      className="btn-ghost !bg-emerald-500 !text-white hover:!bg-emerald-600 w-full sm:w-auto"
+                      className="btn-ghost !bg-emerald-500 !text-white hover:!bg-emerald-600 w-full sm:w-auto !py-2.5 md:!py-3 !text-[10px] md:!text-xs"
                     >
-                      <FileSpreadsheet size={20} />
+                      <FileSpreadsheet size={18} className="md:w-5 md:h-5" />
                       Exportar Excel
                     </button>
                     <button
@@ -525,9 +586,9 @@ export default function AdminDashboard({ token }: { token: string }) {
                         offer_price: '',
                         images: []
                       })}
-                      className="btn-primary !bg-brand-yellow !text-brand-black hover:!bg-brand-yellow/80 w-full sm:w-auto"
+                      className="btn-primary !bg-brand-yellow !text-brand-black hover:!bg-brand-yellow/80 w-full sm:w-auto !py-2.5 md:!py-3 !text-[10px] md:!text-xs"
                     >
-                      <Plus size={20} />
+                      <Plus size={18} className="md:w-5 md:h-5" />
                       Novo Produto
                     </button>
                   </div>
@@ -690,23 +751,45 @@ export default function AdminDashboard({ token }: { token: string }) {
                     
                     {/* Mobile-only info block */}
                     <div className="sm:hidden w-full space-y-2">
-                      <p className="text-stone-500 text-sm">
-                        <span className="font-bold text-brand-black">{p.category}</span> • R$ {p.price?.toLocaleString('pt-BR')}
-                      </p>
-                      {p.stock_quantity && (
-                        <p className="text-xs text-stone-400 font-medium">
-                          Estoque: <span className="text-brand-black font-bold">{p.stock_quantity}</span>
+                      <div className="flex items-center justify-between">
+                        <p className="text-stone-500 text-sm">
+                          <span className="font-bold text-brand-black">{p.category}</span> • R$ {p.price?.toLocaleString('pt-BR')}
                         </p>
+                        {p.stock_quantity && (
+                          <p className="text-xs text-stone-400 font-medium">
+                            Estoque: <span className="text-brand-black font-bold">{p.stock_quantity}</span>
+                          </p>
+                        )}
+                      </div>
+                      
+                      {p.status !== 'vendido' && (
+                        <button 
+                          onClick={() => handleSellOneUnit(p)}
+                          className="w-full flex items-center justify-center gap-2 bg-emerald-500 text-white py-3 rounded-xl font-black uppercase tracking-tight text-xs shadow-lg shadow-emerald-500/20 active:scale-95 transition-all"
+                        >
+                          <Check size={18} />
+                          Vender 1 Unidade
+                        </button>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200 sm:border-none">
-                      <button onClick={() => setEditingItem(p)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-brand-white sm:bg-transparent p-3 sm:p-2 text-stone-600 sm:text-stone-400 hover:text-brand-blue transition-colors rounded-xl border sm:border-none border-stone-200">
-                        <Edit2 size={20} className="sm:w-5 sm:h-5" />
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100 sm:border-none">
+                      {p.status !== 'vendido' && (
+                        <button 
+                          onClick={() => handleSellOneUnit(p)}
+                          className="hidden sm:flex items-center justify-center gap-2 bg-emerald-50 text-emerald-600 px-3 py-2 rounded-xl font-bold text-[10px] uppercase tracking-wider hover:bg-emerald-500 hover:text-white transition-all"
+                          title="Vender 1 Unidade"
+                        >
+                          <Check size={16} />
+                          Vender
+                        </button>
+                      )}
+                      <button onClick={() => setEditingItem(p)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-stone-50 sm:bg-transparent p-3 sm:p-2 text-stone-600 sm:text-stone-400 hover:text-brand-blue transition-colors rounded-xl border sm:border-none border-stone-100">
+                        <Edit2 size={18} className="sm:w-5 sm:h-5" />
                         <span className="sm:hidden text-xs font-bold uppercase tracking-widest">Editar</span>
                       </button>
-                      <button onClick={() => handleDeleteProduct(p.id)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-brand-white sm:bg-transparent p-3 sm:p-2 text-stone-600 sm:text-stone-400 hover:text-red-600 transition-colors rounded-xl border sm:border-none border-stone-200">
-                        <Trash2 size={20} className="sm:w-5 sm:h-5" />
+                      <button onClick={() => handleDeleteProduct(p.id)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-stone-50 sm:bg-transparent p-3 sm:p-2 text-stone-600 sm:text-stone-400 hover:text-red-600 transition-colors rounded-xl border sm:border-none border-stone-100">
+                        <Trash2 size={18} className="sm:w-5 sm:h-5" />
                         <span className="sm:hidden text-xs font-bold uppercase tracking-widest">Excluir</span>
                       </button>
                     </div>
@@ -811,31 +894,31 @@ export default function AdminDashboard({ token }: { token: string }) {
               </div>
 
               {/* Summary Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-emerald-50 p-6 rounded-3xl border border-emerald-100">
-                  <div className="flex items-center gap-3 mb-2 text-emerald-600">
-                    <Check size={20} />
-                    <span className="font-bold text-xs uppercase tracking-widest">Total Vendidos</span>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+                <div className="bg-emerald-50 p-4 md:p-6 rounded-2xl md:rounded-3xl border border-emerald-100">
+                  <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2 text-emerald-600">
+                    <Check size={16} className="md:w-5 md:h-5" />
+                    <span className="font-bold text-[8px] md:text-xs uppercase tracking-widest">Vendidos</span>
                   </div>
-                  <div className="text-3xl font-black text-emerald-900">
+                  <div className="text-xl md:text-3xl font-black text-emerald-900">
                     {products.filter(p => p.status === 'vendido').length}
                   </div>
                 </div>
-                <div className="bg-amber-50 p-6 rounded-3xl border border-amber-100">
-                  <div className="flex items-center gap-3 mb-2 text-amber-600">
-                    <AlertTriangle size={20} />
-                    <span className="font-bold text-xs uppercase tracking-widest">Total Reservados</span>
+                <div className="bg-amber-50 p-4 md:p-6 rounded-2xl md:rounded-3xl border border-amber-100">
+                  <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2 text-amber-600">
+                    <AlertTriangle size={16} className="md:w-5 md:h-5" />
+                    <span className="font-bold text-[8px] md:text-xs uppercase tracking-widest">Reservados</span>
                   </div>
-                  <div className="text-3xl font-black text-amber-900">
+                  <div className="text-xl md:text-3xl font-black text-amber-900">
                     {products.filter(p => p.status === 'reservado').length}
                   </div>
                 </div>
-                <div className="bg-brand-blue/5 p-6 rounded-3xl border border-brand-blue/10">
-                  <div className="flex items-center gap-3 mb-2 text-brand-blue">
-                    <Package size={20} />
-                    <span className="font-bold text-xs uppercase tracking-widest">Total em Estoque</span>
+                <div className="bg-brand-blue/5 p-4 md:p-6 rounded-2xl md:rounded-3xl border border-brand-blue/10 col-span-2 md:col-span-1">
+                  <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2 text-brand-blue">
+                    <Package size={16} className="md:w-5 md:h-5" />
+                    <span className="font-bold text-[8px] md:text-xs uppercase tracking-widest">Em Estoque</span>
                   </div>
-                  <div className="text-3xl font-black text-brand-black">
+                  <div className="text-xl md:text-3xl font-black text-brand-black">
                     {products.filter(p => !['vendido', 'reservado', 'oculto'].includes(p.status)).length}
                   </div>
                 </div>
@@ -994,41 +1077,41 @@ export default function AdminDashboard({ token }: { token: string }) {
 
               <div className="grid grid-cols-1 gap-8">
                 {/* Identidade Visual */}
-                <section className="bg-brand-white p-8 rounded-3xl border border-stone-100 shadow-sm relative overflow-hidden">
+                <section className="bg-brand-white p-5 md:p-8 rounded-2xl md:rounded-3xl border border-stone-100 shadow-sm relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-brand-yellow/5 rounded-bl-full -mr-10 -mt-10" />
                   
-                  <div className="flex items-center gap-4 mb-8 border-b border-stone-100 pb-6 relative">
-                    <div className="w-12 h-12 rounded-2xl bg-brand-blue/10 text-brand-blue flex items-center justify-center shadow-sm">
-                      <ImageIcon size={24} />
+                  <div className="flex items-center gap-4 mb-6 md:mb-8 border-b border-stone-100 pb-4 md:pb-6 relative">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-brand-blue/10 text-brand-blue flex items-center justify-center shadow-sm">
+                      <ImageIcon size={20} className="md:w-6 md:h-6" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-black text-brand-black uppercase tracking-tight">Identidade Visual</h3>
-                      <p className="text-xs text-stone-400 font-bold uppercase tracking-widest">Logo e Cores</p>
+                      <h3 className="text-base md:text-lg font-black text-brand-black uppercase tracking-tight">Identidade Visual</h3>
+                      <p className="text-[10px] text-stone-400 font-bold uppercase tracking-widest">Logo e Cores</p>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {renderSettingInput('store_name', 'Nome da Loja')}
-                    <div className="md:col-span-2 bg-stone-50/50 p-6 rounded-2xl border border-stone-100">
+                    <div className="md:col-span-2 bg-stone-50/50 p-4 md:p-6 rounded-xl md:rounded-2xl border border-stone-100">
                        {renderSettingInput('store_logo', 'Logo da Loja')}
                     </div>
                   </div>
                 </section>
 
-                <section className="bg-brand-white p-8 rounded-3xl border border-stone-100 shadow-sm relative overflow-hidden">
+                <section className="bg-brand-white p-5 md:p-8 rounded-2xl md:rounded-3xl border border-stone-100 shadow-sm relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-full -mr-10 -mt-10" />
 
-                  <div className="flex items-center gap-4 mb-8 border-b border-stone-100 pb-6 relative">
-                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shadow-sm">
-                      <MessageCircle size={24} />
+                  <div className="flex items-center gap-4 mb-6 md:mb-8 border-b border-stone-100 pb-4 md:pb-6 relative">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shadow-sm">
+                      <MessageCircle size={20} className="md:w-6 md:h-6" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-black text-brand-black uppercase tracking-tight">Contato e Redes Sociais</h3>
-                      <p className="text-xs text-stone-400 font-bold uppercase tracking-widest">Canais de Atendimento</p>
+                      <h3 className="text-base md:text-lg font-black text-brand-black uppercase tracking-tight">Contato e Redes</h3>
+                      <p className="text-[10px] text-stone-400 font-bold uppercase tracking-widest">Canais de Atendimento</p>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {renderSettingInput('contact_whatsapp', 'WhatsApp (apenas números)')}
                     {renderSettingInput('contact_email', 'E-mail de Contato')}
                     {renderSettingInput('social_instagram', 'Instagram (@usuario)')}
@@ -1037,24 +1120,24 @@ export default function AdminDashboard({ token }: { token: string }) {
                 </section>
 
                 {/* Informações da Loja */}
-                <section className="bg-brand-white p-8 rounded-3xl border border-stone-100 shadow-sm relative overflow-hidden">
+                <section className="bg-brand-white p-5 md:p-8 rounded-2xl md:rounded-3xl border border-stone-100 shadow-sm relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-brand-black/5 rounded-bl-full -mr-10 -mt-10" />
 
-                  <div className="flex items-center gap-4 mb-8 border-b border-stone-100 pb-6 relative">
-                    <div className="w-12 h-12 rounded-2xl bg-brand-yellow/10 text-brand-yellow-dark flex items-center justify-center shadow-sm">
-                      <MapPin size={24} />
+                  <div className="flex items-center gap-4 mb-6 md:mb-8 border-b border-stone-100 pb-4 md:pb-6 relative">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-brand-yellow/10 text-brand-yellow-dark flex items-center justify-center shadow-sm">
+                      <MapPin size={20} className="md:w-6 md:h-6" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-black text-brand-black uppercase tracking-tight">Informações da Loja</h3>
-                      <p className="text-xs text-stone-400 font-bold uppercase tracking-widest">Endereço e Políticas</p>
+                      <h3 className="text-base md:text-lg font-black text-brand-black uppercase tracking-tight">Informações da Loja</h3>
+                      <p className="text-[10px] text-stone-400 font-bold uppercase tracking-widest">Endereço e Políticas</p>
                     </div>
                   </div>
                   
-                  <div className="space-y-8">
+                  <div className="space-y-6 md:space-y-8">
                     {renderSettingInput('store_location', 'Endereço Completo')}
-                    {renderSettingInput('store_hours', 'Horário de Funcionamento (Ex: Seg a Sex 08:00 às 18:00)')}
+                    {renderSettingInput('store_hours', 'Horário de Funcionamento')}
                     {renderSettingInput('store_description', 'Sobre a Loja (Descrição)', true)}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                       {renderSettingInput('store_delivery', 'Política de Entrega', true)}
                       {renderSettingInput('store_payment', 'Formas de Pagamento', true)}
                     </div>
