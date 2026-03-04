@@ -58,7 +58,7 @@ export default function App() {
           <Route path="/" element={<Home settings={settings} products={products} banners={banners} searchTerm={searchTerm} isLoading={isLoading} />} />
           <Route path="/ofertas" element={<Offers settings={settings} products={products} />} />
           <Route path="/produto/:id" element={<ProductDetail settings={settings} />} />
-          <Route path="/login" element={token ? <Navigate to="/admin" /> : <AdminLogin onLogin={handleLogin} />} />
+          <Route path="/login" element={token ? <Navigate to="/admin" /> : <AdminLogin onLogin={handleLogin} settings={settings} />} />
           <Route 
             path="/admin" 
             element={token ? <AdminDashboard token={token} /> : <Navigate to="/login" />} 

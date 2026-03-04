@@ -265,7 +265,7 @@ export default function Home({
       {/* Product Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
             {filteredProducts.map((product: any, idx: number) => (
               <motion.div
                 layout
@@ -273,7 +273,7 @@ export default function Home({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="group bg-white dark:bg-black rounded-3xl overflow-hidden border border-brand-border dark:border-white/10 hover:border-brand-accent dark:hover:border-brand-accent transition-all hover:shadow-2xl hover:shadow-brand-black/5 dark:shadow-none"
+                className="group bg-white dark:bg-black rounded-2xl md:rounded-3xl overflow-hidden border border-brand-border dark:border-white/10 hover:border-brand-accent dark:hover:border-brand-accent transition-all hover:shadow-2xl hover:shadow-brand-black/5 dark:shadow-none"
               >
                 <Link to={`/produto/${product.id}`}>
                   <div className="aspect-[3/4] overflow-hidden relative bg-white dark:bg-black">
@@ -292,61 +292,61 @@ export default function Home({
                     )}
 
                     {product.is_offer && (
-                      <div className="absolute top-4 right-4 bg-brand-accent text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-lg z-20 flex items-center gap-1">
-                        <ShoppingBag size={12} />
+                      <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-brand-accent text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest px-2 py-1 md:px-3 md:py-1.5 rounded-md md:rounded-lg shadow-lg z-20 flex items-center gap-1">
+                        <ShoppingBag size={10} className="md:w-3 md:h-3" />
                         Sale
                       </div>
                     )}
                     
                     {product.status === 'reservado' && !product.is_offer && (
-                      <div className="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-lg z-10 animate-pulse">
+                      <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-amber-500 text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest px-2 py-1 md:px-3 md:py-1.5 rounded-md md:rounded-lg shadow-lg z-10 animate-pulse">
                         Reservado
                       </div>
                     )}
 
                     {product.status === 'vendido' && (
                       <div className="absolute inset-0 bg-red-600/20 backdrop-blur-[2px] z-10 flex items-center justify-center">
-                        <div className="bg-red-600 text-white text-xs font-black uppercase tracking-[0.2em] px-6 py-3 rounded-xl shadow-2xl transform -rotate-12 border-4 border-white/20">
+                        <div className="bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-[0.2em] px-4 py-2 md:px-6 md:py-3 rounded-lg md:rounded-xl shadow-2xl transform -rotate-12 border-2 md:border-4 border-white/20">
                           Vendido
                         </div>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-brand-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-6">
-                      <span className="w-full bg-white text-brand-black py-3 rounded-xl font-display font-black uppercase tracking-tight text-[10px] text-center transform translate-y-4 group-hover:translate-y-0 transition-transform shadow-lg">
+                    <div className="absolute inset-0 bg-brand-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 md:p-6">
+                      <span className="w-full bg-white text-brand-black py-2 md:py-3 rounded-lg md:rounded-xl font-display font-black uppercase tracking-tight text-[9px] md:text-[10px] text-center transform translate-y-4 group-hover:translate-y-0 transition-transform shadow-lg">
                         Ver Detalhes
                       </span>
                     </div>
                   </div>
                 </Link>
-                <div className="p-4 md:p-6">
-                  <h3 className="font-display font-medium text-sm md:text-lg mb-1 md:mb-2 group-hover:text-brand-accent dark:text-stone-100 transition-colors line-clamp-1">{product.name}</h3>
-                  <p className="text-stone-500 dark:text-stone-400 text-[10px] md:text-xs line-clamp-2 mb-4 md:mb-6 h-8 opacity-70">
+                <div className="p-3 md:p-6">
+                  <h3 className="font-display font-medium text-xs md:text-lg mb-1 md:mb-2 group-hover:text-brand-accent dark:text-stone-100 transition-colors line-clamp-1">{product.name}</h3>
+                  <p className="text-stone-500 dark:text-stone-400 text-[9px] md:text-xs line-clamp-1 md:line-clamp-2 mb-3 md:mb-6 h-4 md:h-8 opacity-70">
                     {product.description}
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col">
                       {product.is_offer ? (
                         <div className="flex flex-col">
-                          <span className="text-[10px] md:text-xs text-stone-400 line-through font-bold">
+                          <span className="text-[8px] md:text-[10px] text-stone-400 line-through font-bold">
                             R$ {product.price?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                           </span>
-                          <span className="text-lg md:text-xl font-display font-black text-brand-accent">
+                          <span className="text-base md:text-xl font-display font-black text-brand-accent leading-none">
                             R$ {Number(product.offer_price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                           </span>
                         </div>
                       ) : (
-                        <div className="flex flex-col">
-                          <div className="flex items-baseline gap-1.5">
-                            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">À vista</span>
-                            <span className="text-lg md:text-xl font-display font-black text-brand-black dark:text-white">
+                        <div className="flex flex-col gap-0.5 md:gap-1">
+                          <div className="flex items-baseline gap-1 md:gap-1.5">
+                            <span className="text-[8px] md:text-[9px] font-black text-stone-400 uppercase tracking-widest">À vista</span>
+                            <span className="text-base md:text-xl font-display font-black text-brand-black dark:text-white leading-none">
                               {product.price ? `R$ ${Number(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'Sob consulta'}
                             </span>
                           </div>
                           {product.price_card && (
-                            <div className="flex items-baseline gap-1.5 -mt-1">
-                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Cartão</span>
-                              <span className="text-sm md:text-base font-display font-bold text-stone-600 dark:text-stone-400">
+                            <div className="flex items-baseline gap-1 md:gap-1.5">
+                              <span className="text-[8px] md:text-[9px] font-black text-stone-400 uppercase tracking-widest">Cartão</span>
+                              <span className="text-xs md:text-sm font-display font-bold text-stone-500 dark:text-stone-400 leading-none">
                                 R$ {Number(product.price_card).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                               </span>
                             </div>
@@ -358,9 +358,9 @@ export default function Home({
                       href={`https://wa.me/${settings?.contact_whatsapp}?text=Olá! Tenho interesse no produto: ${product.name}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-gray dark:bg-white/5 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:bg-brand-accent hover:text-white dark:hover:text-white transition-all"
+                      className="w-8 h-8 md:w-10 md:h-10 rounded-xl md:rounded-2xl bg-brand-gray dark:bg-white/5 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:bg-brand-accent hover:text-white dark:hover:text-white transition-all shadow-sm hover:shadow-md active:scale-95"
                     >
-                      <ShoppingBag size={16} className="md:w-[18px] md:h-[18px]" />
+                      <ShoppingBag size={14} className="md:w-[18px] md:h-[18px]" />
                     </a>
                   </div>
                 </div>
